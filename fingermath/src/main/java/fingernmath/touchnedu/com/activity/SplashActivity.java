@@ -2,18 +2,15 @@ package fingernmath.touchnedu.com.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.view.WindowManager;
 
-import fingernmath.touchnedu.com.fingermath.R;
+import fingernmath.touchnedu.com.R;
 import fingernmath.touchnedu.com.interfacemodule.IOnHandlerMessage;
 import fingernmath.touchnedu.com.util.Util;
 import fingernmath.touchnedu.com.util.WeakRefHandler;
-
-/**
- * Created by HONG-QC on 2016-11-07.
- */
 
 public class SplashActivity extends Activity implements IOnHandlerMessage {
   WeakRefHandler wrHandler = new WeakRefHandler(this);
@@ -27,7 +24,7 @@ public class SplashActivity extends Activity implements IOnHandlerMessage {
 
     mContext = this;
 
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_splash);
     wrHandler.sendEmptyMessage(0);
 
   }
@@ -54,7 +51,10 @@ public class SplashActivity extends Activity implements IOnHandlerMessage {
   }
 
   private void startMainActivity() {
-
+    Intent intent = new Intent(this, MainActivity.class);
+    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    startActivity(intent);
+    finish();
   }
 
 }

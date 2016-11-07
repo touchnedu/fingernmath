@@ -1,6 +1,8 @@
 package fingernmath.touchnedu.com.util;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 
 /**
@@ -31,7 +33,21 @@ public class Util {
   }
 
   public static void customOneDialog(Context context) {
+    /* Builder 객체를 통해 다이얼로그에 표시할 항목(제목, 내용, 버튼 등)을 세팅한다. */
+    AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+    dialog.setTitle("제목 테스트").setMessage("내용 테스트");
+    dialog.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int whichButton) {
 
+      }
+    }).show();
+
+    /* Builder 객체를 통해 세팅이 완료되면 메시지를 띄울 AlertDialog 객체를 만든다.
+     * Builder.create()
+     */
+//    AlertDialog alertDialog = dialog.create();
+//    alertDialog.show();
   }
 
 }

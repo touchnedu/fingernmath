@@ -5,14 +5,93 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="fingernmath.touchnedu.com.fingermath.fingernmath.touchnedu.com.activity.MainActivity">
+    android:background="#FFF"
+    tools:context="fingernmath.touchnedu.com.activity.MainActivity">
 
-  <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Hello World!"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="#EEE"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DDD"/>
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/quiz_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/footer"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="51dp"
+        android:layout_above="@id/quiz_footer">
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFF"/>
+
+    </LinearLayout>
+
+    <!-- MyScript Area Start -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/quiz_footer">
+
+        <com.myscript.atk.math.widget.MathWidget
+            android:id="@+id/mathWidget"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"/>
+
+    </FrameLayout>
+    <!-- MyScript Area End -->
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <Button
+            android:id="@+id/btn_menu_quiz"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/button_menu"/>
+
+        <TextView
+            android:id="@+id/title_quiz"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#444"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="10까지의 숫자 쓰기"/>
+
+      <Button
+          android:id="@+id/btn_sound"
+          android:layout_gravity="right"
+          android:layout_width="45dp"
+          android:layout_height="25dp"
+          android:layout_marginEnd="20dp"
+          android:layout_marginTop="12dp"
+          android:background="@drawable/button_sound"/>
+
+    </FrameLayout>
+
+
 </RelativeLayout>
