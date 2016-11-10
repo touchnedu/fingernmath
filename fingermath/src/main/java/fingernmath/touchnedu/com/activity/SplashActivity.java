@@ -37,7 +37,8 @@ public class SplashActivity extends Activity implements IOnHandlerMessage {
         if(isConnect)
           wrHandler.sendEmptyMessageDelayed(2, 1500);
         else
-          wrHandler.sendEmptyMessage(1);
+          wrHandler.sendEmptyMessageDelayed(2, 1500);
+//          wrHandler.sendEmptyMessage(1);
         break;
 
       case 1:

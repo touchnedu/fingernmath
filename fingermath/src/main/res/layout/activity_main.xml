@@ -25,40 +25,34 @@
 
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <WebView
+            android:id="@+id/webview_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFF"
+            android:layout_marginTop="51dp"
+            android:layout_marginBottom="60dp"/>
+
+        <!-- MyScript Area Start -->
+        <com.myscript.atk.math.widget.MathWidget
+            android:id="@+id/mathWidget"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignParentTop="true"/>
+        <!-- MyScript Area End -->
+
+    </FrameLayout>
+
     <include
         android:id="@+id/quiz_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         layout="@layout/footer"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="51dp"
-        android:layout_above="@id/quiz_footer">
-
-        <WebView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFF"/>
-
-    </LinearLayout>
-
-    <!-- MyScript Area Start -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/quiz_footer">
-
-        <com.myscript.atk.math.widget.MathWidget
-            android:id="@+id/mathWidget"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_alignParentTop="true"/>
-
-    </FrameLayout>
-    <!-- MyScript Area End -->
 
     <FrameLayout
         android:layout_width="match_parent"
