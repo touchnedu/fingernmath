@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
+import android.widget.Toast;
 
 /**
  * Created by HONG-QC on 2016-11-07.
@@ -48,6 +49,10 @@ public class Util {
      */
 //    AlertDialog alertDialog = dialog.create();
 //    alertDialog.show();
+  }
+
+  public static void showToast(Context context, String msg) {
+    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
   }
 
 }

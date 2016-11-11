@@ -1,5 +1,6 @@
 package fingernmath.touchnedu.com.module;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.webkit.WebView;
@@ -19,11 +20,13 @@ public class WebViewMain {
     mActivity = (Activity)context;
   }
 
+  @SuppressLint("JavascriptInterface")
   public void initWebView() {
     mWebView = (WebView)mActivity.findViewById(R.id.webview_main);
     mWebView.getSettings().setBuiltInZoomControls(false);
     mWebView.setHorizontalScrollBarEnabled(false);
     mWebView.setVerticalScrollBarEnabled(false);
+    mWebView.addJavascriptInterface(new BridgeForMain(), "maindroid");
     mWebView.setWebViewClient(new WebViewClient() {
       @Override
       public void onPageFinished(WebView view, String url) {
