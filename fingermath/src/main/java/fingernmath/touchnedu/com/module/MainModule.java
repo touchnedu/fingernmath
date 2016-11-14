@@ -13,7 +13,7 @@ import fingernmath.touchnedu.com.R;
  */
 
 public class MainModule implements View.OnClickListener {
-  private static final String TAG = "Main Module";
+  private static final String TAG = "MainModule";
 
   public void initMainActivity(Context context) {
     Activity activity = (Activity)context;
@@ -26,6 +26,8 @@ public class MainModule implements View.OnClickListener {
     soundBtn.setOnClickListener(this);
     leftQuizBtn.setOnClickListener(this);
     rightQuizBtn.setOnClickListener(this);
+
+    Log.i(TAG, "MainModule initMainActivity Finished!");
 
   }
 

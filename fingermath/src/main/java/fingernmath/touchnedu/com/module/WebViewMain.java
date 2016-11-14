@@ -3,6 +3,7 @@ package fingernmath.touchnedu.com.module;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -37,7 +38,7 @@ public class WebViewMain {
 
   public void initPage() {
     try {
-      mWebView.loadUrl("");
+      mWebView.loadUrl(mActivity.getResources().getString(R.string.quiz_url));
     } catch(Exception e) {
       e.printStackTrace();
     }
