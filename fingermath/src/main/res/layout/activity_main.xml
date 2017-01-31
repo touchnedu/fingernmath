@@ -29,12 +29,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/get_img_area"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/answerview_back"/>
-
         <WebView
             android:id="@+id/webview_main"
             android:layout_width="match_parent"
@@ -50,6 +44,14 @@
             android:layout_height="fill_parent"
             android:layout_alignParentTop="true"/>
         <!-- MyScript Area End -->
+
+        <ImageView
+            android:id="@+id/get_img_area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="150dp"
+            android:background="@drawable/answerview_back"/>
 
     </FrameLayout>
 

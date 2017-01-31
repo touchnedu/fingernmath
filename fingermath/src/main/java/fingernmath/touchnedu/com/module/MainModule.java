@@ -34,9 +34,9 @@ public class MainModule implements View.OnClickListener {
   @Override
   public void onClick(View v) {
     switch (v.getId()) {
-      case R.id.btn_menu_quiz:
-        showLog("메뉴 버튼");
-        break;
+//      case R.id.btn_menu_quiz:
+//        showLog("메뉴 버튼");
+//        break;
 
       case R.id.btn_sound:
         showLog("소리 버튼");

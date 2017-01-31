@@ -5,18 +5,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
+import android.graphics.Typeface;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.myscript.atk.core.CaptureInfo;
 import com.myscript.atk.math.widget.MathWidgetApi;
 import com.myscript.certificate.MyCertificate;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import fingernmath.touchnedu.com.BuildConfig;
 import fingernmath.touchnedu.com.R;
 
 /**
@@ -24,14 +26,17 @@ import fingernmath.touchnedu.com.R;
  */
 
 public class MyScriptModule implements MathWidgetApi.OnConfigureListener,
-                                       MathWidgetApi.OnRecognitionListener {
+                                       MathWidgetApi.OnRecognitionListener,
+                                       MathWidgetApi.OnPenListener {
   private static final String TAG = "MathWidget";
   private Context mContext;
   private MathWidgetApi mWidget;
   private Timer aniTimer;
   private TimerTask aniTimerTask;
   private Activity mActivity;
+  private ImageView answerImgView;
   private int frameCount = 0;
+  private int writePosX, writePosY;
 
   public MyScriptModule(Context mContext) {
     this.mContext = mContext;
@@ -42,10 +47,14 @@ public class MyScriptModule implements MathWidgetApi.OnConfigureListener,
     mWidget = (MathWidgetApi)mActivity.findViewById(R.id.mathWidget);
     mWidget.setOnConfigureListener(this);
     mWidget.setOnRecognitionListener(this);
+    mWidget.setOnPenListener(this);
+    mWidget.setTypeface(Typeface.createFromAsset(mActivity.getAssets(), "STIXGeneral-Italic.ttf"));
+    mWidget.setBeautificationOption(MathWidgetApi.RecognitionBeautification.BeautifyFontify);
+    mWidget.setPaddingRatio(1, 1, 1, 1);
     mWidget.setBaselineColor(View.INVISIBLE);
     mWidget.setBackgroundColor(View.INVISIBLE);
+    answerImgView = (ImageView)mActivity.findViewById(R.id.get_img_area);
 
-    Log.i(TAG, "Certificate : " + mWidget.registerCertificate(MyCertificate.getBytes()));
     if (!mWidget.registerCertificate(MyCertificate.getBytes())) {
       AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(mContext);
       dlgAlert.setMessage("Please use a valid certificate.");
@@ -99,9 +108,6 @@ public class MyScriptModule implements MathWidgetApi.OnConfigureListener,
       Log.e(TAG, "Unable to configure the Math Widget : " + widget.getErrorString());
       return;
     }
-    Toast.makeText(mContext, "Math Widget Configured", Toast.LENGTH_SHORT).show();
-    if (BuildConfig.DEBUG)
-      Log.d(TAG, "Math Widget configured!");
   }
 
   @Override
@@ -111,19 +117,33 @@ public class MyScriptModule implements MathWidgetApi.OnConfigureListener,
 
   @Override
   public void onRecognitionEnd(MathWidgetApi widget) {
-    Toast.makeText(mContext, "Recognition update", Toast.LENGTH_SHORT).show();
-    if (BuildConfig.DEBUG) {
-      Log.d(TAG, "Math Widget recognition : " + widget.getResultAsText());
-    }
-
     frameCount = 0;
     if(!widget.getResultAsText().equals("")) {
-      ((View)mWidget).setVisibility(View.INVISIBLE);
-      genAniTimerTask();
-      doTimerTask();
+//      ((View)mWidget).setVisibility(View.INVISIBLE);
+      Bitmap b = mWidget.getResultAsImage();
+      answerImgView.setImageBitmap(b);
+//      genAniTimerTask();
+//      doTimerTask();
     }
 
   }
+
+  @Override
+  public void onPenDown(MathWidgetApi widget, CaptureInfo point) {
+    writePosX = (int)point.getX();
+    writePosY = (int)point.getY();
+  }
+
+  @Override
+  public void onPenUp(MathWidgetApi widget, CaptureInfo point) {
+  }
+
+  @Override
+  public void onPenMove(MathWidgetApi widget, CaptureInfo point) {
+  }
+
+  @Override
+  public void onPenAbort(MathWidgetApi widget) { }
 
   private void genAniTimerTask() {
     if(aniTimerTask == null) {
@@ -144,29 +164,29 @@ public class MyScriptModule implements MathWidgetApi.OnConfigureListener,
   }
 
   private Runnable genAnswer = new Runnable() {
-    Bitmap answerBitmap;
-    Bitmap backBitmap;
-    Canvas canvas;
-    int bitmapWidth;
-    int bitmapHeight;
-
-
     @Override
     public void run() {
+      Bitmap answerBitmap;
+      int bitmapWidth;
+      int bitmapHeight;
       frameCount++;
 
       /** 12프레임까지는 이미지를 생성, 12프레임에 이미지가 모두 생성되면 정/오답 체크. */
       if(frameCount > 12) {
         closeTimerRef();
-        Log.i("MyScriptModule", "test : " + mWidget.getResultAsText());
+
       } else {
         answerBitmap = mWidget.getResultAsImage();
-        bitmapWidth = answerBitmap.getWidth();
-        bitmapHeight = answerBitmap.getHeight();
-        answerBitmap = Bitmap.createBitmap(answerBitmap, 0, 0, bitmapWidth, bitmapHeight);
-        backBitmap = Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ALPHA_8);
-        canvas = new Canvas(backBitmap);
-        canvas.drawBitmap(answerBitmap, bitmapWidth, bitmapHeight, null);
+
+        if(answerBitmap != null) {
+          bitmapWidth = answerBitmap.getWidth();
+          bitmapHeight = answerBitmap.getHeight();
+
+          answerBitmap = Bitmap.createBitmap(answerBitmap, 0, 0, bitmapWidth, bitmapHeight);
+          answerImgView.setImageBitmap(answerBitmap);
+          answerImgView.setX(writePosX + 2);
+          answerImgView.setY(writePosY);
+        }
 
         if(frameCount == 13) {
 
@@ -177,7 +197,6 @@ public class MyScriptModule implements MathWidgetApi.OnConfigureListener,
   };
 
   private void closeTimerRef() {
-    ((View)mWidget).setVisibility(View.VISIBLE);
     if(aniTimerTask != null) {
       aniTimerTask.cancel(); // Timer 큐에서 task 삭제
       aniTimerTask = null;
@@ -187,6 +206,8 @@ public class MyScriptModule implements MathWidgetApi.OnConfigureListener,
       aniTimer.purge(); // task 큐의 모든 task 제거
       aniTimer = null;
     }
+//    ((View)mWidget).setVisibility(View.VISIBLE);
+    mWidget.clear(true);
   }
 
 
